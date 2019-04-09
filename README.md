@@ -3,12 +3,12 @@ This is a code repository for one of my graduation projects.
 
 1.project description
 ====
-1.1Project name & tasks: 
+1.1 Project name & tasks: 
 --
 * Photovoltaic(PV-arrays) recognition in aerial images based on deep learning<br>
 * build deep neural networks to complete detection and segmentation tasks,which means calculate the accurate bounding box and binary segmentation of PV-arrays in a set of aerial images.<br>
 
-1.2Enviroment Requirements: 
+1.2 Enviroment Requirements: 
 --
 * Python>=3.6
 * Pytorch=1.0
