@@ -70,6 +70,7 @@ def calc_KPI(output,label):
     print('presicion:{} recall:{} accuracy:{} F1_score:{:f}'.format(precision,recall,accuracy,F1_score))
     return (precision,recall,accuracy,F1_score)
     
+
 #测试程序
 def test_calc_KPI():
     output=torch.zeros(2,2,10,10)
