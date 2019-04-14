@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  9 19:19:49 2019
-
 @author: qing
-
 usage:train model 
 """
 import torch
@@ -22,8 +19,9 @@ from Unet_model import *
 from function import *
 from Dataload import *
 
-raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/"
-label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/"
+train_raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/"
+train_label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/"
+
 map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/map_file.txt"
 #生成原始图片路径与标签/掩模图片路径的配对.txt文件,以便后续数据读取
 raw_content=os.listdir(raw_dir)
