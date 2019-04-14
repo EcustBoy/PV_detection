@@ -15,9 +15,7 @@ import numpy as np
 import time
 import os
 
-
 class Unet(nn.Module):
-    
     def convlayer(self,in_channel,out_channel):
         #两侧中的同级内卷积运算模块
         #in_channel:输入图片通道数;out_channel:输出图片通道数
@@ -43,9 +41,7 @@ class Unet(nn.Module):
                 nn.ConvTranspose2d(in_channel,out_channel,kernel_size=2,stride=2,padding=1),
                 nn.ReLU(inplace=True)
                 )
-        
         return module
-    
         
     def __init__(self):
         super(Unet,self).__init__()
@@ -61,13 +57,11 @@ class Unet(nn.Module):
         self.U_conv2=self.convlayer(32,16)
         self.U_conv1=self.convlayer(16,8)
         self.last=nn.Conv2d(8,2,kernel_size=1,stride=1)
-        
         #右半侧解码器结构的上采样运算
         self.U4=self.deconvlayer(128,64)
         self.U3=self.deconvlayer(64,32)
         self.U2=self.deconvlayer(32,16)
         self.U1=self.deconvlayer(16,8)
-        
         
     def forward(self,x):
         #编码器部分
