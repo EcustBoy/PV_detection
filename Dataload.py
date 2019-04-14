@@ -84,13 +84,21 @@ class ImageLoader(data.Dataset):
     def __len__(self):
         return len(os.listdir(self.raw_dir))
 
-generate_raw_label_map_file(raw_dir,label_dir,map_file_path)
-imageloader=ImageLoader(raw_dir,label_dir,map_file_path,norm=False)
-#cv2.imshow('raw',imageloader[1][1].numpy())
-raw=imageloader[1][1].numpy()
-raw=np.transpose(raw,(1,2,0))
-#cv2.imshow('raw',raw)
-#cv2.waitKey(0)
-plt.imshow(raw)
-plt.show()
-print(np.shape(raw))
+def test_imageloader():
+    try:
+       generate_raw_label_map_file(raw_dir,label_dir,map_file_path)
+       imageloader=ImageLoader(raw_dir,label_dir,map_file_path,norm=False)
+       raw=imageloader[1][1].numpy()
+       raw=np.transpose(raw,(1,2,0))
+#       plt.imshow(raw)
+#       plt.show()
+       print('test pass!')
+    except:
+        print('test failed!')
+#    print(np.shape(raw))
+        
+if __name__=="__main__":
+    test_imageloader()
+    
+    
+    
