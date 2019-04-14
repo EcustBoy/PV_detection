@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  9 19:19:00 2019
-
 @author: qing
+usage:define U-Net model and test
 """
 import torch
 import torch.utils.data
