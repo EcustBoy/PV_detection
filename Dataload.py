@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  9 19:18:00 2019
-
-@author: 15216
+@author: qing
+usage:define Dataloader and test
 """
 import torch
 import torch.utils.data as data
