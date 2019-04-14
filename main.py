@@ -109,6 +109,7 @@ def main():
             ImageLoader(raw_dir,label_dir,map_file_path,norm=False),
             batch_size=batch_size,shuffle=False,
             num_workers=workers)
+    
     val_dataloader=torch.utils.data.DataLoader(
             ImageLoader(raw_dir,label_dir,map_file_path,norm=False),
             batch_size=batch_size,shuffle=False,
