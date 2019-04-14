@@ -14,17 +14,22 @@ import matplotlib.pyplot as plt
 import random
 from scipy.misc import imread,imresize,imshow
 
-raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/"
-label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/"
-map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/map_file.txt"
+train_raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/train/"
+train_label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/train/"
+train_map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/map_file.txt"
 #生成原始图片路径与标签/掩模图片路径的配对.txt文件,以便后续数据读取
-raw_content=os.listdir(raw_dir)
-raw_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
-label_content=os.listdir(label_dir)
-label_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
-num=len(label_content)
+#train_raw_content=os.listdir(train_raw_dir)
+#train_raw_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
+#train_label_content=os.listdir(train_label_dir)
+#train_label_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
+#num=len(train_label_content)
 
 def generate_raw_label_map_file(raw_dir,label_dir,map_file_path):
+    raw_content=os.listdir(train_raw_dir)
+    raw_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
+    label_content=os.listdir(train_label_dir)
+    label_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
+    num=len(label_content)
     try:
         with open(map_file_path,'w') as f:
             for index in range(0,num):
@@ -86,15 +91,15 @@ class ImageLoader(data.Dataset):
 
 def test_imageloader():
     try:
-       generate_raw_label_map_file(raw_dir,label_dir,map_file_path)
-       imageloader=ImageLoader(raw_dir,label_dir,map_file_path,norm=False)
+       generate_raw_label_map_file(train_raw_dir,train_label_dir,train_map_file_path)
+       imageloader=ImageLoader(train_raw_dir,train_label_dir,train_map_file_path,norm=False)
        raw=imageloader[1][1].numpy()
        raw=np.transpose(raw,(1,2,0))
-#       plt.imshow(raw)
-#       plt.show()
+       plt.imshow(raw)
+       plt.show()
        print('test pass!')
     except:
-        print('test failed!')
+       print('test failed!')
 #    print(np.shape(raw))
         
 if __name__=="__main__":
