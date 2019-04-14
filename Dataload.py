@@ -14,9 +14,14 @@ import matplotlib.pyplot as plt
 import random
 from scipy.misc import imread,imresize,imshow
 
+#全局变量
 train_raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/train/"
 train_label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/train/"
-train_map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/map_file.txt"
+train_map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/train_map_file.txt"
+
+val_raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/validate/"
+val_label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/validate/"
+val_map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/validate_map_file.txt"
 #生成原始图片路径与标签/掩模图片路径的配对.txt文件,以便后续数据读取
 #train_raw_content=os.listdir(train_raw_dir)
 #train_raw_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
