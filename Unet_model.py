@@ -111,7 +111,7 @@ def Unet_test():
     print('the size of Unet model output is {}'.format(output_size))
     assert (original_size[2]==output_size[2])&(original_size[3]==output_size[3]),\
     "the size of output tensor:'{}' is wrong".format(original_size)
-    print('--------test pass!--------')
+    print('test pass!')
     
 if __name__=='__main__':
     Unet_test()
