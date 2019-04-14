@@ -72,7 +72,7 @@ def calc_KPI(output,label):
     
 #测试程序
 def test_calc_KPI():
-    output=torch.zeros(1,2,10,10)
+    output=torch.zeros(2,2,10,10)
     output[:,0,:,0:5]=1
     output[:,1,:,5:10]=1
     label=torch.zeros(1,1,10,10)
