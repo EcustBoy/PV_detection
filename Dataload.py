@@ -106,7 +106,7 @@ def test_imageloader():
     batch_size=batch_size,shuffle=False,
     num_workers=workers)
     return val_dataloader
-#    print(np.shape(raw))
+
         
 if __name__=="__main__":
     val_dataloader=test_imageloader()
