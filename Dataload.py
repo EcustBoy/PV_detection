@@ -6,7 +6,6 @@ usage:define Dataloader and test
 import torch
 import torch.utils.data as data
 import torchvision.transforms as transforms
-import cv2
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -87,27 +86,41 @@ class ImageLoader(data.Dataset):
             
         raw_image=transforms.ToTensor()(raw_image)
         label_image=transforms.ToTensor()(label_image)
-        
+        print('--------------------------')
         return index,raw_image,label_image
         
     def __len__(self):
         return len(os.listdir(self.raw_dir))
 
 def test_imageloader():
-    try:
-       generate_raw_label_map_file(train_raw_dir,train_label_dir,train_map_file_path)
-       imageloader=ImageLoader(train_raw_dir,train_label_dir,train_map_file_path,norm=False)
-       raw=imageloader[1][1].numpy()
-       raw=np.transpose(raw,(1,2,0))
-       plt.imshow(raw)
-       plt.show()
-       print('test pass!')
-    except:
-       print('test failed!')
+    batch_size=2
+    workers=4
+    #generate_raw_label_map_file(train_raw_dir,train_label_dir,train_map_file_path)
+    #imageloader=ImageLoader(train_raw_dir,train_label_dir,train_map_file_path,norm=False)
+#       raw=imageloader[1][1].numpy()
+#       raw=np.transpose(raw,(1,2,0))
+#       plt.imshow(raw)
+#       plt.show()
+    val_dataloader=data.DataLoader(
+    ImageLoader(val_raw_dir,val_label_dir,val_map_file_path,norm=False),
+    batch_size=batch_size,shuffle=False,
+    num_workers=workers)
+    return val_dataloader
 #    print(np.shape(raw))
         
 if __name__=="__main__":
-    test_imageloader()
+    val_dataloader=test_imageloader()
+   
+    for Id,(index,input_image,label_image) in enumerate(val_dataloader):
+        d=input_image[0].permute(1,2,0).numpy()
+        print('--ho--')
+        if Id==0:
+            print('--ha--')
+            plt.imshow(d)
+            plt.show()
+            break
+    print('test pass!')
+       
     
     
     
