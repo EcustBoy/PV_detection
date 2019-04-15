@@ -18,8 +18,6 @@ from Unet_model import *
 from function import *
 
 
-
-
 def train(model,dataloader,criterion,optimizer,epoch):
     model.train()
     for Id,(index,input_image,label_image) in enumerate(dataloader):
