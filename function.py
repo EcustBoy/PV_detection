@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Apr 13 11:22:46 2019
-
 @author: qing
+usage:define some utils function if needed
 """
 import torch
 import numpy as np
