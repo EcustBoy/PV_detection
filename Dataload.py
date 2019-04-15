@@ -86,7 +86,7 @@ class ImageLoader(data.Dataset):
             
         raw_image=transforms.ToTensor()(raw_image)
         label_image=transforms.ToTensor()(label_image)
-        print('--------------------------')
+        
         return index,raw_image,label_image
         
     def __len__(self):
