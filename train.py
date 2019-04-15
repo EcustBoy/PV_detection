@@ -105,13 +105,42 @@ def train(model,dataloader,criterion,optimizer,epoch,losses):
 #              .format(epoch,Id,precision,recall,accuracy,time_))
 
 
-
+def test(model,test_dataloader,criterion):
+    model.eval()
+    for Id,(index,input_image,label_image) in enumerate(test_dataloader):
+        input_image=input_image.float()
+        label_image=label_image.float()
+        
+        output_image=model(input_image)
+        #print('feed over')
+        batch_size=output_image.size()[0]
+        channel=output_image.size()[1]
+        
+        output_image=output_image.contiguous().view(batch_size,channel,-1)
+        label_image=label_image.contiguous().view(batch_size,1,-1)
+        output_image=output_image.transpose(1,2).contiguous()
+        label_image=label_image.transpose(1,2).contiguous()
+        output_image=output_image.view(-1,channel)
+        label_image=label_image.contiguous().view(-1,1)/255
+        label_image=label_image.long().squeeze_()
+        loss=criterion(output_image,label_image)
+        
+        precision,recall,accuracy,F1_score=calc_KPI(output_image,label_image)
+        
+        input_image=input_image.permute(1,2,0).numpy()
+        plt.figure(1)
+        plt.subplot(131)
+        plt.imshow(input_image)
+        plt.title('raw image')
+        plt.subplot(132)
+        plt.subplot(133)
+        
 
         
 if __name__=="__main__":
-    epochs=50
-    batch_size=4
-    workers=4
+    epochs=500
+    batch_size=5
+    workers=2
     weight_decay=5e-4
     momentum=0.9
     losses=[]
