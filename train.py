@@ -127,8 +127,10 @@ def test(model,test_dataloader):
         label_image=label_image.float()
         #output_image shape:(batch_size,2,100,100)
         output_image=model(input_image)
+        
         batch_size=output_image.size()[0]
-        #channel=output_image.size()[1]
+        channel=output_image.size()[1]
+        
         #segmask is visualization of predicted segmentation results
         segmask=torch.zeros(batch_size,100,100)
         for b in range(0,batch_size):
@@ -138,19 +140,31 @@ def test(model,test_dataloader):
                         segmask[b,row,col]=0
                     else:
                         segmask[b,row,col]=255
+        output_image=output_image.contiguous().view(batch_size,channel,-1)
+        label_image=label_image.contiguous().view(batch_size,1,-1)
+        output_image=output_image.transpose(1,2).contiguous()
+        label_image=label_image.transpose(1,2).contiguous()
+        output_image=output_image.view(-1,channel)
+        label_image=label_image.contiguous().view(-1,1)/255
+        label_image=label_image.long().squeeze_()
+        #label_image=torch.autograd.Variable(label_image)
+        #定义损失函数和优化器类型
+        loss=criterion(output_image,label_image)
+        loss_=loss.detach().numpy()
+        Precision,Recall,Accuracy,F1=calc_KPI(output_image,label_image)
         if Id==0:
             break
     #将input_image,output_image,segmask由tensor类型转为numpy类型
     i=input_image[0].permute(1,2,0).numpy()
     l=label_image[0].permute(1,2,0).numpy()[:,:,0]
     s=segmask[0].numpy()
-    plt.figure();
-    plt.imshow(i)
-    return i,l,s
+#    plt.figure();
+#    plt.imshow(i)
+    return i,l,s,loss_,Precision,Recall,Accuracy,F1
                         
 
 if __name__=="__main__":
-    epochs=100
+    epochs=20
     batch_size=5
     workers=2
     weight_decay=5e-4
@@ -196,11 +210,12 @@ if __name__=="__main__":
         val_losses,precision_,recall_,accuracy_,F1_score_=\
         validate(model,val_dataloader,criterion,epoch,val_losses,precision_,recall_,accuracy_,F1_score_)
     #全部训练结束后调用测试函数，可视化对比输入RGB图，真实标签图与网络预测图
-    input_image,label_image,segmask=test(model,test_dataloader)
+    print('train finised')
+    input_image,label_image,segmask,p,r,a,f=test(model,test_dataloader)
     print('test:input_image size:{}'.format(np.shape(input_image)))
     print('test:label_image size:{}'.format(np.shape(label_image)))
     print('test:segmask size:{}'.format(np.shape(segmask)))
-    print('train finised')
+    print('test case:precision:{}\nrecall:{}\naccuracy:{}\nF1_score:{}\n:'.format(p,r,a,f))
     #可视化部分
     plt.figure(1)
     plt.title('losses')
