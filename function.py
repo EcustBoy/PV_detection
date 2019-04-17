@@ -51,7 +51,10 @@ def calc_KPI(output,label):
 #    print(FN)
 #    print(TN)
     try:
-        precision=TP.numpy()/P.numpy()
+        if P.numpy()==0:
+            precision=0
+        else:
+            precision=TP.numpy()/P.numpy()
     except:
         precision=np.nan
     try:
