@@ -20,24 +20,22 @@ train_map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/33858
 val_raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/validate/"
 val_label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/validate/"
 val_map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/validate_map_file.txt"
-#生成原始图片路径与标签/掩模图片路径的配对.txt文件,以便后续数据读取
-#train_raw_content=os.listdir(train_raw_dir)
-#train_raw_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
-#train_label_content=os.listdir(train_label_dir)
-#train_label_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
-#num=len(train_label_content)
 
-def generate_raw_label_map_file(raw_dir,label_dir,map_file_path):
-    raw_content=os.listdir(train_raw_dir)
+test_raw_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/raw_image_data/seg_images/test/"
+test_label_dir="D:/my_course/graduation_project/AerialImageSolarArray/3385804/label_image_data/Mask_label/seg_mask/test/"
+test_map_file_path="D:/my_course/graduation_project/AerialImageSolarArray/3385804/test_map_file.txt"
+
+def generate_raw_label_map_file(storage_raw_dir,storage_label_dir,map_file_path):
+    raw_content=os.listdir(storage_raw_dir)
     raw_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
-    label_content=os.listdir(train_label_dir)
+    label_content=os.listdir(storage_label_dir)
     label_content.sort(key=lambda x: (int((x.split('-')[0]).split('_')[0])-1)*50 +int((x.split('-')[0]).split('_')[1]))
     num=len(label_content)
     try:
         with open(map_file_path,'w') as f:
             for index in range(0,num):
-                raw_path=os.path.join(raw_dir,raw_content[index])
-                label_path=os.path.join(label_dir,label_content[index])
+                raw_path=os.path.join(storage_raw_dir,raw_content[index])
+                label_path=os.path.join(storage_label_dir,label_content[index])
                 f.write(raw_path)
                 f.write(' ')
                 f.write(label_path)
@@ -47,7 +45,6 @@ def generate_raw_label_map_file(raw_dir,label_dir,map_file_path):
         print('error occurs when write raw_label_map_file!')
                 
     
-
 #generate_raw_label_map_file(raw_dir,label_dir,map_file_path)
 #从已生成的.txt文件读取原始图片路径与标签/掩模图片路径配对
 def read_raw_label_paths(map_file_path,index):
@@ -95,27 +92,26 @@ class ImageLoader(data.Dataset):
 def test_imageloader():
     batch_size=2
     workers=4
-    #generate_raw_label_map_file(train_raw_dir,train_label_dir,train_map_file_path)
+    generate_raw_label_map_file(test_raw_dir,test_label_dir,test_map_file_path)
     #imageloader=ImageLoader(train_raw_dir,train_label_dir,train_map_file_path,norm=False)
 #       raw=imageloader[1][1].numpy()
 #       raw=np.transpose(raw,(1,2,0))
 #       plt.imshow(raw)
 #       plt.show()
-    val_dataloader=data.DataLoader(
-    ImageLoader(val_raw_dir,val_label_dir,val_map_file_path,norm=False),
+    test_dataloader=data.DataLoader(
+    ImageLoader(test_raw_dir,test_label_dir,test_map_file_path,norm=False),
     batch_size=batch_size,shuffle=False,
     num_workers=workers)
-    return val_dataloader
+    return test_dataloader
 
         
 if __name__=="__main__":
-    val_dataloader=test_imageloader()
+    test_dataloader=test_imageloader()
    
-    for Id,(index,input_image,label_image) in enumerate(val_dataloader):
+    for Id,(index,input_image,label_image) in enumerate(test_dataloader):
         d=input_image[0].permute(1,2,0).numpy()
-        print('--ho--')
+        
         if Id==0:
-            print('--ha--')
             plt.imshow(d)
             plt.show()
             break
