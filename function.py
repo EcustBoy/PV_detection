@@ -65,8 +65,9 @@ def calc_KPI(output,label):
     try:
         F1_score=2/(1/precision+1/recall)
     except:
-        F1_score=np.nan
-    print('presicion:{} recall:{} accuracy:{} F1_score:{:f}'.format(precision,recall,accuracy,F1_score))
+        #说明上一步溢出，precision or recall接近或等于0,此时直接赋予F1_score为0
+        F1_score=0
+    #print('presicion:{} recall:{} accuracy:{} F1_score:{:f}'.format(precision,recall,accuracy,F1_score))
     return (precision,recall,accuracy,F1_score)
     
 
